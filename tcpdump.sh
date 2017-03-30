@@ -27,7 +27,6 @@ while [ $run -eq 1 ]; do
         printf "[ 5 ] tcpdump: Capture the traffic of a interface with a host and a protocol? \n"
         printf "[ 6 ] tcpdump: Capture the traffic of a interface with two host and a protocol? \n"
         printf "[ 7 ] tcpdump: Make here your own shit! \n"
-
         printf "[ 8 ] tcpdump: exit! \n"
 
 
@@ -105,7 +104,9 @@ while [ $run -eq 1 ]; do
 
 	elif [ $source_choice -eq 7 ]; then
                 printf "Put your personal command here: \n"
-		printf "tcpdump -nli \n"
+		printf "tcpdump -nli is the basic of the command! \n"
+                printf "== option you can add == \n" 
+                printf "ex: eth0 host ip and icmp and port number -w /tmp/name.pcap -C 3 -W 3 \n"        
                 read -p "Enter: " personalcommand
 		tcpdump -nli $personalcommand
 
