@@ -34,7 +34,7 @@ while [ $run -eq 1 ]; do
   	read source_choice
 
 	if [ $source_choice -eq 1 ]; then
-             	tcpdump -D
+             	tcpdump -D | less
 
         elif [ $source_choice -eq 2 ]; then
                 printf "what interface do you want to listen? \n"
