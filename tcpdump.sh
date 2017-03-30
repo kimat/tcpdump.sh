@@ -39,8 +39,8 @@ while [ $run -eq 1 ]; do
         elif [ $source_choice -eq 2 ]; then
                 printf "what interface do you want to listen? \n"
                 read -p "Enter: " interface
-		read -p "Do you need to save the capture to a pcap file?" yn_1
-		case $yn_1 in
+		read -p "Do you need to save the capture to a pcap file?" yn
+		case $yn in
                 [Yy]* ) tcpdump -nli $interface -w /tmp/tcpdump.pcap;; 
 		[Nn]* ) tcpdump -nli $interface;;
 		* ) echo "Please answer yes or no.";;
@@ -51,8 +51,8 @@ while [ $run -eq 1 ]; do
                 read -p "Enter: " interface
 		printf "what host do you want to listen? \n"
                 read -p "Enter: " host1
-                read -p "Do you need to save the capture to a pcap file?" yn_1
-                case $yn_1 in
+                read -p "Do you need to save the capture to a pcap file?" yn
+                case $yn in
                 [Yy]* ) tcpdump -nli $interface host $host1 -w /tmp/tcpdump.pcap;;
                 [Nn]* ) tcpdump -nli $interface host $host1;;
                 * ) echo "Please answer yes or no.";;
@@ -65,8 +65,8 @@ while [ $run -eq 1 ]; do
                 read -p "Enter: " host1
 		printf "what host do you want to listen? \n"
                 read -p "Enter: " host2
-                read -p "Do you need to save the capture to a pcap file?" yn_1
-                case $yn_1 in
+                read -p "Do you need to save the capture to a pcap file?" yn
+                case $yn in
                 [Yy]* ) tcpdump -nli $interface host $host1 and $host2 -w /tmp/tcpdump.pcap;;
                 [Nn]* ) tcpdump -nli $interface host $host1 and $host2;;
                 * ) echo "Please answer yes or no.";;
@@ -79,8 +79,8 @@ while [ $run -eq 1 ]; do
                 read -p "Enter: " host1
                 printf "what protocol do you want to listen? \n"
                 read -p "Enter: " protocol
-                read -p "Do you need to save the capture to a pcap file?" yn_1
-                case $yn_1 in
+                read -p "Do you need to save the capture to a pcap file?" yn
+                case $yn in
                 [Yy]* ) tcpdump -nli $interface host $host1 and $protocol -w /tmp/tcpdump.pcap;;
                 [Nn]* ) tcpdump -nli $interface host $host1 and $protocol;;
                 * ) echo "Please answer yes or no.";;
@@ -95,8 +95,8 @@ while [ $run -eq 1 ]; do
                 read -p "Enter: " host2
                 printf "what protocol do you want to listen? \n"
                 read -p "Enter: " protocol
-                read -p "Do you need to save the capture to a pcap file?" yn_1
-                case $yn_1 in
+                read -p "Do you need to save the capture to a pcap file?" yn
+                case $yn in
                 [Yy]* ) tcpdump -nli $interface host $host1 and $host2 and $protocol -w /tmp/tcpdump.pcap;;
                 [Nn]* ) tcpdump -nli $interface host $host1 and $host2 and $protocol;;
                 * ) echo "Please answer yes or no.";;
