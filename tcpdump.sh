@@ -7,6 +7,8 @@ host2=${input:-$host2}
 protocol=${input:-$protocol}
 personalcommand=${input:-$personalcommand}
 
+tcpdump='tcpdump -nli'
+
 function badinput(){
 	printf "\n Unrecognized option, aborting \n"
  	exit 0
@@ -41,8 +43,8 @@ while [ $run -eq 1 ]; do
                 read -p "Enter: " interface
 		read -p "Do you need to save the capture to a pcap file?" yn
 		case $yn in
-                [Yy]* ) tcpdump -nli $interface -w /tmp/tcpdump.pcap;; 
-		[Nn]* ) tcpdump -nli $interface;;
+                [Yy]* ) ${tcpdump} $interface -w /tmp/tcpdump.pcap;; 
+		[Nn]* ) ${tcpdump} $interface;;
 		* ) echo "Please answer yes or no.";;
                 esac
 	
@@ -53,8 +55,8 @@ while [ $run -eq 1 ]; do
                 read -p "Enter: " host1
                 read -p "Do you need to save the capture to a pcap file?" yn
                 case $yn in
-                [Yy]* ) tcpdump -nli $interface host $host1 -w /tmp/tcpdump.pcap;;
-                [Nn]* ) tcpdump -nli $interface host $host1;;
+                [Yy]* ) $tcpdump $interface host $host1 -w /tmp/tcpdump.pcap;;
+                [Nn]* ) $tcpdump $interface host $host1;;
                 * ) echo "Please answer yes or no.";;
                 esac
 
@@ -67,8 +69,8 @@ while [ $run -eq 1 ]; do
                 read -p "Enter: " host2
                 read -p "Do you need to save the capture to a pcap file?" yn
                 case $yn in
-                [Yy]* ) tcpdump -nli $interface host $host1 and $host2 -w /tmp/tcpdump.pcap;;
-                [Nn]* ) tcpdump -nli $interface host $host1 and $host2;;
+                [Yy]* ) $tcpdump $interface host $host1 and $host2 -w /tmp/tcpdump.pcap;;
+                [Nn]* ) $tcpdump $interface host $host1 and $host2;;
                 * ) echo "Please answer yes or no.";;
                 esac
  
@@ -81,8 +83,8 @@ while [ $run -eq 1 ]; do
                 read -p "Enter: " protocol
                 read -p "Do you need to save the capture to a pcap file?" yn
                 case $yn in
-                [Yy]* ) tcpdump -nli $interface host $host1 and $protocol -w /tmp/tcpdump.pcap;;
-                [Nn]* ) tcpdump -nli $interface host $host1 and $protocol;;
+                [Yy]* ) $tcpdump $interface host $host1 and $protocol -w /tmp/tcpdump.pcap;;
+                [Nn]* ) $tcpdump $interface host $host1 and $protocol;;
                 * ) echo "Please answer yes or no.";;
                 esac
 
@@ -97,8 +99,8 @@ while [ $run -eq 1 ]; do
                 read -p "Enter: " protocol
                 read -p "Do you need to save the capture to a pcap file?" yn
                 case $yn in
-                [Yy]* ) tcpdump -nli $interface host $host1 and $host2 and $protocol -w /tmp/tcpdump.pcap;;
-                [Nn]* ) tcpdump -nli $interface host $host1 and $host2 and $protocol;;
+                [Yy]* ) $tcpdump $interface host $host1 and $host2 and $protocol -w /tmp/tcpdump.pcap;;
+                [Nn]* ) $tcpdump $interface host $host1 and $host2 and $protocol;;
                 * ) echo "Please answer yes or no.";;
                 esac
 
