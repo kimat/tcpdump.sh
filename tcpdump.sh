@@ -43,8 +43,8 @@ while [ $run -eq 1 ]; do
                 read -p "Enter: " interface
 		read -p "Do you need to save the capture to a pcap file?" yn
 		case $yn in
-                [Yy]* ) ${tcpdump} $interface -w /tmp/tcpdump.pcap;; 
-		[Nn]* ) ${tcpdump} $interface;;
+                [Yy]* ) $tcpdump $interface -w /tmp/tcpdump.pcap;; 
+		[Nn]* ) $tcpdump $interface;;
 		* ) echo "Please answer yes or no.";;
                 esac
 	
