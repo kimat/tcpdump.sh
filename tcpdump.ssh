@@ -1,11 +1,12 @@
 #!/bin/sh
-#tcpdump.sh
+#tcpdump.ssh
 run=1
 interface=${input:-$interface}
 host1=${input:-$host1}
 host2=${input:-$host2}
 protocol=${input:-$protocol}
 personalcommand=${input:-$personalcommand}
+ip=${input:-$ip}
 
 tcpdump='tcpdump -nli'
 
@@ -15,6 +16,10 @@ function badinput(){
 	
 }
 
+function sshwhois(){
+	printf "what is the host / ip of the remote host? \n"
+        read -p "Enter: " ip
+}
 
 
 clear
@@ -36,32 +41,36 @@ while [ $run -eq 1 ]; do
   	read source_choice
 
 	if [ $source_choice -eq 1 ]; then
-             	tcpdump -D | less
+		sshwhois
+		ssh root@$ip tcpdump -D | less
 
         elif [ $source_choice -eq 2 ]; then
+		sshwhois
                 printf "what interface do you want to listen? \n"
                 read -p "Enter: " interface
 		read -p "Do you need to save the capture to a pcap file?" yn
 		case $yn in
-                [Yy]* ) $tcpdump $interface -w /tmp/tcpdump.pcap;; 
-		[Nn]* ) $tcpdump $interface;;
+                [Yy]* ) ssh root@$ip $tcpdump $interface -w /tmp/tcpdump.pcap;; 
+		[Nn]* ) ssh root@$ip $tcpdump $interface;;
 		* ) echo "Please answer yes or no.";;
                 esac
 	
         elif [ $source_choice -eq 3 ]; then
+		sshwhois
                 printf "what interface do you want to listen? \n"
                 read -p "Enter: " interface
 		printf "what host do you want to listen? \n"
                 read -p "Enter: " host1
                 read -p "Do you need to save the capture to a pcap file?" yn
                 case $yn in
-                [Yy]* ) $tcpdump $interface host $host1 -w /tmp/tcpdump.pcap;;
-                [Nn]* ) $tcpdump $interface host $host1;;
+                [Yy]* ) ssh root@$ip $tcpdump $interface host $host1 -w /tmp/tcpdump.pcap;;
+                [Nn]* ) ssh root@$ip $tcpdump $interface host $host1;;
                 * ) echo "Please answer yes or no.";;
                 esac
 
 	elif [ $source_choice -eq 4 ]; then
-                printf "what interface do you want to listen? \n"
+                sshwhois
+		printf "what interface do you want to listen? \n"
                 read -p "Enter: " interface
                 printf "what host do you want to listen? \n"
                 read -p "Enter: " host1
@@ -69,8 +78,8 @@ while [ $run -eq 1 ]; do
                 read -p "Enter: " host2
                 read -p "Do you need to save the capture to a pcap file?" yn
                 case $yn in
-                [Yy]* ) $tcpdump $interface host $host1 and $host2 -w /tmp/tcpdump.pcap;;
-                [Nn]* ) $tcpdump $interface host $host1 and $host2;;
+                [Yy]* ) ssh root@$ip $tcpdump $interface host $host1 and $host2 -w /tmp/tcpdump.pcap;;
+                [Nn]* ) ssh root@$ip $tcpdump $interface host $host1 and $host2;;
                 * ) echo "Please answer yes or no.";;
                 esac
  
@@ -83,13 +92,14 @@ while [ $run -eq 1 ]; do
                 read -p "Enter: " protocol
                 read -p "Do you need to save the capture to a pcap file?" yn
                 case $yn in
-                [Yy]* ) $tcpdump $interface host $host1 and $protocol -w /tmp/tcpdump.pcap;;
-                [Nn]* ) $tcpdump $interface host $host1 and $protocol;;
+                [Yy]* ) ssh root@$ip $tcpdump $interface host $host1 and $protocol -w /tmp/tcpdump.pcap;;
+                [Nn]* ) ssh root@$ip $tcpdump $interface host $host1 and $protocol;;
                 * ) echo "Please answer yes or no.";;
                 esac
 
         elif [ $source_choice -eq 6 ]; then
-                printf "what interface do you want to listen? \n"
+                sshwhois
+		printf "what interface do you want to listen? \n"
                 read -p "Enter: " interface
                 printf "what host do you want to listen? \n"
                 read -p "Enter: " host1
@@ -99,18 +109,19 @@ while [ $run -eq 1 ]; do
                 read -p "Enter: " protocol
                 read -p "Do you need to save the capture to a pcap file?" yn
                 case $yn in
-                [Yy]* ) $tcpdump $interface host $host1 and $host2 and $protocol -w /tmp/tcpdump.pcap;;
-                [Nn]* ) $tcpdump $interface host $host1 and $host2 and $protocol;;
+                [Yy]* ) ssh root@$ip $tcpdump $interface host $host1 and $host2 and $protocol -w /tmp/tcpdump.pcap;;
+                [Nn]* ) ssh root@$ip $tcpdump $interface host $host1 and $host2 and $protocol;;
                 * ) echo "Please answer yes or no.";;
                 esac
 
 	elif [ $source_choice -eq 7 ]; then
-                printf "Put your personal command here: \n"
+                sshwhois
+		printf "Put your personal command here: \n"
 		printf "tcpdump -nli is the basic of the command! \n"
                 printf "== option you can add == \n" 
                 printf "ex: eth0 host ip and icmp and port number -w /tmp/name.pcap -C 3 -W 3 \n"        
                 read -p "Enter: " personalcommand
-		tcpdump -nli $personalcommand
+		ssh root@$ip tcpdump -nli $personalcommand
 
 
 	elif [ $source_choice -eq 8 ]; then
