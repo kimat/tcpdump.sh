@@ -1,19 +1,16 @@
 #!/bin/sh
 #tcpdumpssh.sh
 run=1
-interface=${input:-$interface}
-host1=${input:-$host1}
-host2=${input:-$host2}
-protocol=${input:-$protocol}
-personalcommand=${input:-$personalcommand}
-pcapfile='-w /tmp/tcpdump.pcap'
-ip=${input:-$ip}
-user=${input:-user}
 
 function badinput(){
 	printf "\n Unrecognized option, aborting \n"
  	exit 0
 }
+
+# ssh connexion config
+#sshcon=ssh $user@$ip
+ip=${input:-$ip}
+user=${input:-$user}
 
 function sshwhois(){
 	printf "what is the host / ip of the remote host? \n"
@@ -22,7 +19,15 @@ function sshwhois(){
         read -p "Enter: " user
 }
 
+# tcpdump config and option
 tcpdump='tcpdump -nli'
+interface=${input:-$interface}
+host1=${input:-$host1}
+host2=${input:-$host2}
+protocol=${input:-$protocol}
+personalcommand=${input:-$personalcommand}
+pcapfile='-w /tmp/tcpdump.pcap'
+
 function tcpdumpinterface(){ 
  	 $tcpdump $interface 
 }
@@ -58,8 +63,8 @@ while [ $run -eq 1 ]; do
                 read -p "Enter: " interface
 		read -p "Do you need to save the capture to a pcap file?" yn
 		case $yn in
-                [Yy]* ) ssh $user@$ip tcpdumpinterface $pcapfile;; 
-		[Nn]* ) ssh $user@$ip tcpdumpinterface;;
+                [Yy]* ) ssh $user@$ip $tcpdump $interface $pcapfile;; 
+		[Nn]* ) ssh $user@$ip $tcpdump $interface;;
 		* ) echo "Please answer yes or no.";;
                 esac
 	
@@ -71,8 +76,8 @@ while [ $run -eq 1 ]; do
                 read -p "Enter: " host1
                 read -p "Do you need to save the capture to a pcap file?" yn
                 case $yn in
-                [Yy]* ) ssh $user@$ip tcpdumpinterface host $host1 $pcapfile;;
-                [Nn]* ) ssh $user@$ip tcpdumpinterface host $host1;;
+                [Yy]* ) ssh $user@$ip $tcpdump $interface host $host1 $pcapfile;;
+                [Nn]* ) ssh $user@$ip $tcpdump $interface host $host1;;
                 * ) echo "Please answer yes or no.";;
                 esac
 
@@ -86,8 +91,8 @@ while [ $run -eq 1 ]; do
                 read -p "Enter: " host2
                 read -p "Do you need to save the capture to a pcap file?" yn
                 case $yn in
-                [Yy]* ) ssh $user@$ip tcpdumpinterface host $host1 and $host2 $pcapfile;;
-                [Nn]* ) ssh $user@$ip tcpdumpinterface host $host1 and $host2;;
+                [Yy]* ) ssh $user@$ip $tcpdump $interface host $host1 and $host2 $pcapfile;;
+                [Nn]* ) ssh $user@$ip $tcpdump $interface host $host1 and $host2;;
                 * ) echo "Please answer yes or no.";;
                 esac
  
@@ -100,8 +105,8 @@ while [ $run -eq 1 ]; do
                 read -p "Enter: " protocol
                 read -p "Do you need to save the capture to a pcap file?" yn
                 case $yn in
-                [Yy]* ) ssh $user@$ip tcpdumpinterface host $host1 and $protocol $pcapfile;;
-                [Nn]* ) ssh $user@$ip tcpdumpinterface host $host1 and $protocol;;
+                [Yy]* ) ssh $user@$ip $tcpdump $interface host $host1 and $protocol $pcapfile;;
+                [Nn]* ) ssh $user@$ip $tcpdump $interface host $host1 and $protocol;;
                 * ) echo "Please answer yes or no.";;
                 esac
 
@@ -117,8 +122,8 @@ while [ $run -eq 1 ]; do
                 read -p "Enter: " protocol
                 read -p "Do you need to save the capture to a pcap file?" yn
                 case $yn in
-                [Yy]* ) ssh $user@$ip tcpdumpinterface host $host1 and $host2 and $protocol $pcapfile;;
-                [Nn]* ) ssh $user@$ip tcpdumpinterface host $host1 and $host2 and $protocol;;
+                [Yy]* ) ssh $user@$ip $tcpdump $interface host $host1 and $host2 and $protocol $pcapfile;;
+                [Nn]* ) ssh $user@$ip $tcpdump $interface host $host1 and $host2 and $protocol;;
                 * ) echo "Please answer yes or no.";;
                 esac
 
@@ -141,3 +146,4 @@ while [ $run -eq 1 ]; do
 	fi
    
 done
+
